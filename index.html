@@ -1,539 +1,1351 @@
 <!DOCTYPE html>
-<html lang="kn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>KATHU_764 PRO CINEMA</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: #080808;
-      color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      padding-bottom: 70px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>kathu_764</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#080808;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    height:65px;
+    background:#000;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    box-shadow:0 2px 15px rgba(0,0,0,.7);
+}
+
+.logo{
+    color:#e50914;
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:.5px;
+}
+
+.header-buttons{
+    display:flex;
+    gap:8px;
+}
+
+.header-btn{
+    border:0;
+    background:#e50914;
+    color:#fff;
+    padding:10px 14px;
+    border-radius:5px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.header-btn:active{
+    transform:scale(.96);
+}
+
+/* HERO */
+
+.hero{
+    min-height:58vh;
+    display:flex;
+    align-items:flex-end;
+    padding:50px 6%;
+    background:
+    linear-gradient(90deg,#080808 5%,rgba(8,8,8,.65) 45%,transparent 85%),
+    linear-gradient(0deg,#080808 0%,transparent 55%),
+    url("https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1800&q=85")
+    center/cover no-repeat;
+}
+
+.hero-content{
+    max-width:650px;
+}
+
+.hero h1{
+    font-size:clamp(38px,8vw,75px);
+    margin-bottom:12px;
+}
+
+.hero p{
+    color:#ccc;
+    font-size:17px;
+    line-height:1.7;
+}
+
+.hero-button{
+    margin-top:20px;
+    background:#fff;
+    color:#000;
+    border:0;
+    padding:12px 22px;
+    border-radius:5px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* SECTIONS */
+
+main{
+    padding:25px 5%;
+}
+
+.section-title{
+    font-size:23px;
+    margin:25px 0 12px;
+}
+
+.movie-row{
+    display:flex;
+    gap:16px;
+    overflow-x:auto;
+    padding:8px 3px 22px;
+    scrollbar-width:thin;
+}
+
+.movie-row::-webkit-scrollbar{
+    height:7px;
+}
+
+.movie-row::-webkit-scrollbar-thumb{
+    background:#444;
+    border-radius:20px;
+}
+
+/* CARD */
+
+.card{
+    flex:0 0 230px;
+    background:#171717;
+    border-radius:8px;
+    overflow:hidden;
+    transition:.25s;
+    box-shadow:0 5px 20px rgba(0,0,0,.35);
+}
+
+.card:hover{
+    transform:scale(1.04);
+}
+
+.poster{
+    width:100%;
+    height:130px;
+    object-fit:cover;
+    background:#222;
+    display:block;
+}
+
+.card-info{
+    padding:12px;
+}
+
+.card-title{
+    font-size:17px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.card-caption{
+    color:#aaa;
+    font-size:13px;
+    line-height:1.5;
+    min-height:38px;
+}
+
+.watch-btn{
+    margin-top:10px;
+    background:#e50914;
+    color:#fff;
+    border:0;
+    padding:8px 13px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.delete-btn{
+    margin-top:10px;
+    margin-left:5px;
+    background:#333;
+    color:#fff;
+    border:0;
+    padding:8px 10px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.empty{
+    color:#777;
+    padding:20px 0;
+}
+
+/* UPLOAD GATE */
+
+#uploadGate{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.92);
+    z-index:500;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.gate-box{
+    width:min(420px,100%);
+    background:#181818;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 10px 50px #000;
+}
+
+.gate-box h2{
+    margin-bottom:10px;
+}
+
+.gate-box p{
+    color:#aaa;
+    margin-bottom:15px;
+    line-height:1.5;
+}
+
+.gate-input{
+    width:100%;
+    padding:14px;
+    background:#222;
+    color:#fff;
+    border:1px solid #444;
+    border-radius:6px;
+    outline:none;
+    font-size:16px;
+    margin-bottom:12px;
+}
+
+.gate-open{
+    width:100%;
+    background:#e50914;
+    color:#fff;
+    border:0;
+    padding:13px;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.gate-close{
+    width:100%;
+    background:#333;
+    color:#fff;
+    border:0;
+    padding:13px;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:8px;
+}
+
+#errorMessage{
+    color:#ff4b4b;
+    font-size:13px;
+    margin-top:10px;
+    min-height:18px;
+}
+
+/* UPLOAD PANEL */
+
+#uploadPanel{
+    display:none;
+    margin:25px 5%;
+    padding:25px;
+    background:#151515;
+    border-radius:10px;
+    border:1px solid #292929;
+}
+
+#uploadPanel h2{
+    margin-bottom:20px;
+}
+
+.form-label{
+    display:block;
+    color:#ddd;
+    margin-top:10px;
+    margin-bottom:5px;
+}
+
+.form-input,
+.form-textarea,
+.form-select{
+    width:100%;
+    padding:13px;
+    background:#222;
+    color:#fff;
+    border:1px solid #444;
+    border-radius:6px;
+    outline:none;
+}
+
+.form-textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.upload-submit{
+    margin-top:10px;
+    background:#e50914;
+    color:#fff;
+    border:0;
+    padding:13px 20px;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.cancel-upload{
+    margin-left:7px;
+    background:#333;
+    color:#fff;
+    border:0;
+    padding:13px 20px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.small-note{
+    color:#777;
+    font-size:12px;
+    margin-top:15px;
+    line-height:1.6;
+}
+
+/* PLAYER */
+
+#player{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000;
+    z-index:1000;
+    padding:12px;
+}
+
+.player-top{
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.player-title{
+    font-size:17px;
+    font-weight:bold;
+}
+
+.close-player{
+    background:#e50914;
+    color:#fff;
+    border:0;
+    padding:8px 13px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.video-area{
+    height:calc(100vh - 110px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+#mainVideo{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+    transition:.2s;
+}
+
+/* PLAYER CONTROLS */
+
+.player-controls{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    justify-content:center;
+    padding:8px;
+}
+
+.player-controls button{
+    background:#222;
+    color:#fff;
+    border:1px solid #444;
+    padding:8px 11px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* ACCOUNT */
+
+#accountPanel{
+    display:none;
+    position:fixed;
+    right:12px;
+    top:72px;
+    width:260px;
+    background:#181818;
+    border:1px solid #333;
+    border-radius:10px;
+    padding:18px;
+    z-index:200;
+    box-shadow:0 10px 30px #000;
+}
+
+#accountPanel h3{
+    margin-bottom:10px;
+}
+
+.account-info{
+    color:#aaa;
+    font-size:13px;
+    line-height:1.7;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    color:#666;
+    padding:35px 15px;
+    margin-top:20px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    header{
+        height:60px;
+        padding:0 10px;
     }
 
-    /* Top Animated Header */
-    header {
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(180deg, #161616 0%, transparent 100%);
-      position: sticky;
-      top: 0;
-      z-index: 99;
-    }
-    .brand {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      color: #ff0055;
-      text-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
-    }
-    .btn-create {
-      background: #ff0055;
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 13px;
-      cursor: pointer;
+    .logo{
+        font-size:20px;
     }
 
-    /* Main Video Player System */
-    .player-section {
-      width: 100%;
-      max-width: 1000px;
-      margin: 10px auto;
-      padding: 0 12px;
-      transition: all 0.3s ease;
-    }
-    /* Full Width & Edge-to-edge Mode */
-    .player-section.full-mode {
-      max-width: 100% !important;
-      padding: 0 !important;
-      margin: 0 0 20px 0 !important;
-    }
-    .player-section.full-mode .video-frame {
-      border-radius: 0;
-      border: none;
+    .header-btn{
+        padding:8px 10px;
+        font-size:12px;
     }
 
-    .video-frame {
-      position: relative;
-      padding-bottom: 56.25%; /* 16:9 Cinema Aspect */
-      height: 0;
-      background: #000;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #222;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-    }
-    .video-frame iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border: none;
+    .hero{
+        min-height:55vh;
+        padding:35px 5%;
     }
 
-    /* Screen Control Action Buttons */
-    .controls-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
-      padding: 0 5px;
-    }
-    .ctrl-btn {
-      background: #181818;
-      border: 1px solid #333;
-      color: #eee;
-      padding: 9px 15px;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.2s;
-    }
-    .ctrl-btn:hover { background: #252525; }
-    .ctrl-btn.active {
-      background: #ff0055;
-      border-color: #ff0055;
-      color: #fff;
+    .hero p{
+        font-size:14px;
     }
 
-    /* Now Playing Info */
-    .now-playing {
-      max-width: 1000px;
-      margin: 15px auto 25px auto;
-      padding: 0 18px;
-      text-align: left;
-    }
-    .movie-title {
-      font-size: 22px;
-      font-weight: bold;
-      color: #fff;
-    }
-    .movie-desc {
-      font-size: 14px;
-      color: #aaa;
-      margin-top: 6px;
-      line-height: 1.5;
+    .card{
+        flex-basis:175px;
     }
 
-    /* Search Bar with Large Spacing */
-    .search-box {
-      max-width: 1000px;
-      margin: 30px auto 25px auto;
-      padding: 0 16px;
-    }
-    .search-input {
-      width: 100%;
-      background: #151515;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 15px 20px;
-      font-size: 15px;
-      color: #fff;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .search-input:focus {
-      border-color: #ff0055;
+    .poster{
+        height:100px;
     }
 
-    /* Post Feed (Clean, Spacious, Not Cluttered) */
-    .feed-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 35px; /* Clean gap between cards */
-    }
-    .post-card {
-      background: #121212;
-      border-radius: 16px;
-      border: 1px solid #242424;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-      text-align: left;
-    }
-    .post-poster {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      position: relative;
-      cursor: pointer;
-      overflow: hidden;
-    }
-    .post-poster img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .play-overlay {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 0, 85, 0.85);
-      width: 58px; height: 58px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      color: #fff;
-      box-shadow: 0 0 20px rgba(255,0,85,0.6);
-    }
-    .post-content {
-      padding: 18px 20px;
-    }
-    .post-title {
-      font-size: 19px;
-      font-weight: bold;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-    .post-caption {
-      font-size: 14px;
-      color: #bbb;
-      line-height: 1.6;
+    main{
+        padding:20px 5%;
     }
 
-    /* Watch Choice Modal Popup */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+    #uploadPanel{
+        margin:20px 5%;
+        padding:18px;
     }
-    .modal-box {
-      background: #181818;
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 25px;
-      max-width: 420px;
-      width: 100%;
-      text-align: center;
-    }
-    .modal-box h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
-      color: #fff;
-    }
-    .modal-box p {
-      font-size: 13px;
-      color: #888;
-      margin-bottom: 22px;
-    }
-    .choice-btn {
-      width: 100%;
-      padding: 13px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-      margin-bottom: 12px;
-    }
-    .btn-website {
-      background: #ff0055;
-      color: white;
-    }
-    .btn-youtube {
-      background: #252525;
-      border: 1px solid #444;
-      color: #ff3333;
-    }
-    .btn-close {
-      background: transparent;
-      border: none;
-      color: #666;
-      font-size: 13px;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-
-    /* Admin Post Creation Modal */
-    .admin-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      z-index: 1001;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .admin-box {
-      background: #181818;
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 22px;
-      max-width: 480px;
-      width: 100%;
-      text-align: left;
-    }
-    .admin-input {
-      width: 100%;
-      background: #101010;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 12px;
-      color: #fff;
-      font-size: 14px;
-      margin-bottom: 14px;
-      outline: none;
-    }
-    .admin-input:focus { border-color: #ff0055; }
-  </style>
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="brand">KATHU_764</div>
-    <button class="btn-create" onclick="openPostModal()">+ Post Video</button>
-  </header>
+<!-- HEADER -->
 
-  <!-- Big Cinema Screen -->
-  <div class="player-section" id="playerWrapper">
-    <div class="video-frame" id="cinemaScreen">
-      <iframe id="cinemaPlayer" 
-        src="https://www.youtube.com/embed/-E0P159qjwk?enablejsapi=1&rel=0&modestbranding=1" 
-        referrerpolicy="strict-origin-when-cross-origin"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        allowfullscreen>
-      </iframe>
+<header>
+
+    <div class="logo">
+        kathu_764
     </div>
 
-    <!-- Screen Size & Control Action Buttons -->
-    <div class="controls-bar">
-      <button class="ctrl-btn" onclick="setScreenSize('zoom')" id="btnZoom">🔍 Full Page Zoom</button>
-      <button class="ctrl-btn active" onclick="setScreenSize('medium')" id="btnMedium">📺 Medium Size (Default)</button>
-      <button class="ctrl-btn" onclick="triggerDeviceFullscreen()">⛶ Phone Fullscreen</button>
+    <div class="header-buttons">
+
+        <button
+        class="header-btn"
+        onclick="toggleAccount()">
+        👤 Account
+        </button>
+
+        <button
+        class="header-btn"
+        onclick="openUploadGate()">
+        ＋ Upload
+        </button>
+
     </div>
-  </div>
 
-  <!-- Now Playing Info -->
-  <div class="now-playing">
-    <div class="movie-title" id="playingTitle">ಮೌನದ ಅಲೆಗಳು (Mouna Nadi)</div>
-    <div class="movie-desc" id="playingDesc">ಹರಿಯುವ ನದಿಯಲ್ಲೂ ಅಡಗಿದೆ ಹೇಳಲಾಗದ ಮೌನ... ಕೆಲವೊಮ್ಮೆ ಮಾತಿಗಿಂತ ನಿಶ್ಯಬ್ದವೇ ಹೆಚ್ಚು ಆಳ. Kathu_764 Exclusive.</div>
-  </div>
+</header>
 
-  <!-- Live Search Bar -->
-  <div class="search-box">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 ಸಿನಿಮಾಗಳು ಅಥವಾ ಹಾಡುಗಳನ್ನು ಹುಡುಕಿ (Search here...)" onkeyup="filterVideos()">
-  </div>
 
-  <!-- Spacious Posts Feed -->
-  <div class="feed-container" id="postsContainer"></div>
+<!-- ACCOUNT -->
 
-  <!-- Watch Option Choice Modal -->
-  <div class="modal-backdrop" id="choiceModal">
-    <div class="modal-box">
-      <h3>Where do you want to watch?</h3>
-      <p>Choose your viewing option</p>
-      <button class="choice-btn btn-website" onclick="watchOnWebsite()">🌐 Watch on Website (Full Quality)</button>
-      <button class="choice-btn btn-youtube" onclick="watchOnYoutube()">▶ Watch on YouTube App</button>
-      <br>
-      <button class="btn-close" onclick="closeChoiceModal()">Cancel</button>
+<div id="accountPanel">
+
+    <h3>👤 Account</h3>
+
+    <div class="account-info">
+        Website: kathu_764<br>
+        Status: Active<br>
+        Content: My Collection
     </div>
-  </div>
 
-  <!-- Create Post Modal -->
-  <div class="admin-modal" id="adminModal">
-    <div class="admin-box">
-      <h3 style="margin-bottom: 15px; color:#fff;">ಹೊಸ ವೀಡಿಯೋ ಪೋಸ್ಟ್ ಮಾಡಿ</h3>
-      <input type="text" id="newTitle" class="admin-input" placeholder="ವೀಡಿಯೋ / ಸಿನಿಮಾ ಹೆಸರು (Title)">
-      <input type="text" id="newUrl" class="admin-input" placeholder="YouTube Link (Paste URL)">
-      <input type="text" id="newThumb" class="admin-input" placeholder="ಕಸ್ಟಮ್ ಪೋಸ್ಟರ್ ಫೋಟೋ ಲಿಂಕ್ (ಖಾಲಿ ಬಿಟ್ಟರೆ YT ಥಂಬ್‌ನೇಲ್ ಬರುತ್ತದೆ)">
-      <textarea id="newCaption" class="admin-input" rows="3" placeholder="ಕ್ಯಾಪ್ಷನ್ / ವಿವರಣೆ ಬರೆಯಿರಿ (Caption)"></textarea>
-      
-      <div style="display:flex; justify-content: flex-end; gap: 10px;">
-        <button class="ctrl-btn" onclick="closePostModal()">ರದ್ದು (Cancel)</button>
-        <button class="btn-create" onclick="saveNewPost()">ಪೋಸ್ಟ್ ಮಾಡಿ (Publish)</button>
-      </div>
+</div>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>kathu_764</h1>
+
+        <p>
+            My personal cinema.
+            Movies, Web Series and Short Films
+            created and uploaded by me.
+        </p>
+
+        <button
+        class="hero-button"
+        onclick="scrollToContent()">
+        ▶ Explore
+        </button>
+
     </div>
-  </div>
 
-  <script>
-    // Initial Movie Posts List
-    let initialPosts = [
-      {
-        id: "-E0P159qjwk",
-        title: "ಮೌನದ ಅಲೆಗಳು (Mouna Nadi)",
-        thumb: "https://img.youtube.com/vi/-E0P159qjwk/hqdefault.jpg",
-        desc: "ಹರಿಯುವ ನದಿಯಲ್ಲೂ ಅಡಗಿದೆ ಹೇಳಲಾಗದ ಮೌನ... ಕೆಲವೊಮ್ಮೆ ಮಾತಿಗಿಂತ ನಿಶ್ಯಬ್ದವೇ ಹೆಚ್ಚು ಆಳ. Kathu_764 Exclusive."
-      },
-      {
-        id: "L_LUpnjgPso",
-        title: "ಆಕ್ಷನ್ ಸಿನಿಮಾ ಟ್ರೇಲರ್ (Action Trailer)",
-        thumb: "https://img.youtube.com/vi/L_LUpnjgPso/hqdefault.jpg",
-        desc: "ರೋಮಾಂಚಕ ಆಕ್ಷನ್ ದೃಶ್ಯಗಳು ಮತ್ತು ಭರ್ಜರಿ ಮನರಂಜನೆ. ಈಗಲೇ ವೀಕ್ಷಿಸಿ!"
-      }
-    ];
+</section>
 
-    // Load from Storage or Defaults
-    let saved = localStorage.getItem('kathu_posts');
-    let posts = saved ? JSON.parse(saved) : initialPosts;
 
-    let selectedVideo = null;
+<!-- UPLOAD CODE GATE -->
 
-    // Render Posts with spacious layout
-    function renderPosts(filter = "") {
-      const container = document.getElementById('postsContainer');
-      container.innerHTML = "";
+<div id="uploadGate">
 
-      const filtered = posts.filter(p => p.title.toLowerCase().includes(filter.toLowerCase()) || p.desc.toLowerCase().includes(filter.toLowerCase()));
+    <div class="gate-box">
 
-      if(filtered.length === 0) {
-        container.innerHTML = "<p style='color:#777; text-align:center; padding:30px;'>ಯಾವುದೇ ವೀಡಿಯೋಗಳು ಕಂಡುಬಂದಿಲ್ಲ (No results found)</p>";
+        <h2>🔐 Upload Access</h2>
+
+        <p>
+            Upload option ತೆರೆಯಲು access code ನಮೂದಿಸಿ.
+        </p>
+
+        <input
+        id="uploadCode"
+        class="gate-input"
+        type="password"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="Enter access code">
+
+        <button
+        class="gate-open"
+        onclick="checkUploadCode()">
+        Open Upload
+        </button>
+
+        <button
+        class="gate-close"
+        onclick="closeUploadGate()">
+        Cancel
+        </button>
+
+        <div id="errorMessage"></div>
+
+    </div>
+
+</div>
+
+
+<!-- UPLOAD PANEL -->
+
+<section id="uploadPanel">
+
+    <h2>🎬 Upload Movie / Web Series</h2>
+
+    <label class="form-label">
+        Title
+    </label>
+
+    <input
+    id="contentTitle"
+    class="form-input"
+    type="text"
+    placeholder="Movie / Web Series name">
+
+
+    <label class="form-label">
+        Type
+    </label>
+
+    <select
+    id="contentType"
+    class="form-select">
+
+        <option value="Movie">
+            Movie
+        </option>
+
+        <option value="Web Series">
+            Web Series
+        </option>
+
+        <option value="Short Film">
+            Short Film
+        </option>
+
+    </select>
+
+
+    <label class="form-label">
+        Caption
+    </label>
+
+    <textarea
+    id="contentCaption"
+    class="form-textarea"
+    placeholder="Write caption / description"></textarea>
+
+
+    <label class="form-label">
+        Thumbnail
+    </label>
+
+    <input
+    id="thumbnailFile"
+    class="form-input"
+    type="file"
+    accept="image/*">
+
+
+    <label class="form-label">
+        Video
+    </label>
+
+    <input
+    id="videoFile"
+    class="form-input"
+    type="file"
+    accept="video/*">
+
+
+    <button
+    class="upload-submit"
+    onclick="uploadContent()">
+    ⬆ Upload
+    </button>
+
+    <button
+    class="cancel-upload"
+    onclick="closeUploadPanel()">
+    Cancel
+    </button>
+
+    <p class="small-note">
+        ಈ HTML version local testingಗಾಗಿ.
+        Browser refresh ನಂತರ thumbnail data ಉಳಿಸಬಹುದು,
+        ಆದರೆ ದೊಡ್ಡ video files permanent online storageಗೆ
+        backend/cloud storage ಅಗತ್ಯವಿದೆ.
+    </p>
+
+</section>
+
+
+<!-- MAIN -->
+
+<main id="content">
+
+    <h2 class="section-title">
+        ⭐ Featured
+    </h2>
+
+    <div
+    id="featuredRow"
+    class="movie-row">
+
+        <div class="empty">
+            ಇನ್ನೂ content upload ಆಗಿಲ್ಲ.
+        </div>
+
+    </div>
+
+
+    <h2 class="section-title">
+        🎬 Movies & Short Films
+    </h2>
+
+    <div
+    id="moviesRow"
+    class="movie-row">
+
+        <div class="empty">
+            ಇನ್ನೂ Movies ಇಲ್ಲ.
+        </div>
+
+    </div>
+
+
+    <h2 class="section-title">
+        📺 Web Series
+    </h2>
+
+    <div
+    id="seriesRow"
+    class="movie-row">
+
+        <div class="empty">
+            ಇನ್ನೂ Web Series ಇಲ್ಲ.
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- VIDEO PLAYER -->
+
+<div id="player">
+
+    <div class="player-top">
+
+        <div
+        id="playerTitle"
+        class="player-title">
+        Playing
+        </div>
+
+        <button
+        class="close-player"
+        onclick="closePlayer()">
+        ✕ Close
+        </button>
+
+    </div>
+
+
+    <div
+    id="videoArea"
+    class="video-area">
+
+        <video
+        id="mainVideo"
+        controls
+        playsinline>
+        </video>
+
+    </div>
+
+
+    <div class="player-controls">
+
+        <button onclick="seekVideo(-10)">
+            ⏪ 10s
+        </button>
+
+        <button onclick="seekVideo(10)">
+            10s ⏩
+        </button>
+
+        <button onclick="changeZoom(-0.1)">
+            🔎 Zoom -
+        </button>
+
+        <button onclick="changeZoom(0.1)">
+            🔍 Zoom +
+        </button>
+
+        <button onclick="fitVideo()">
+            Fit
+        </button>
+
+        <button onclick="fillVideo()">
+            Fill
+        </button>
+
+        <button onclick="fullscreenVideo()">
+            ⛶ Full Screen
+        </button>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    © 2026 kathu_764
+
+</footer>
+
+
+<script>
+
+/* ==========================================
+   UPLOAD ACCESS
+   ONLY CODE 1962 OPENS UPLOAD
+========================================== */
+
+const UPLOAD_CODE = "1962";
+
+
+function openUploadGate(){
+
+    const gate =
+    document.getElementById("uploadGate");
+
+    gate.style.display = "flex";
+
+    document.getElementById("uploadCode").value = "";
+
+    document.getElementById("errorMessage").textContent = "";
+
+    setTimeout(function(){
+
+        document
+        .getElementById("uploadCode")
+        .focus();
+
+    },100);
+
+}
+
+
+function closeUploadGate(){
+
+    document
+    .getElementById("uploadGate")
+    .style.display = "none";
+
+}
+
+
+function checkUploadCode(){
+
+    const entered =
+    document
+    .getElementById("uploadCode")
+    .value;
+
+    if(entered === UPLOAD_CODE){
+
+        closeUploadGate();
+
+        openUploadPanel();
+
+    }
+
+    else{
+
+        document
+        .getElementById("errorMessage")
+        .textContent =
+        "❌ Wrong code. Upload option is locked.";
+
+    }
+
+}
+
+
+/* ENTER KEY */
+
+document
+.getElementById("uploadCode")
+.addEventListener("keydown",function(event){
+
+    if(event.key === "Enter"){
+
+        checkUploadCode();
+
+    }
+
+});
+
+
+/* ==========================================
+   UPLOAD PANEL
+========================================== */
+
+function openUploadPanel(){
+
+    document
+    .getElementById("uploadPanel")
+    .style.display = "block";
+
+    document
+    .getElementById("uploadPanel")
+    .scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+}
+
+
+function closeUploadPanel(){
+
+    document
+    .getElementById("uploadPanel")
+    .style.display = "none";
+
+}
+
+
+/* ==========================================
+   CONTENT STORAGE
+========================================== */
+
+let contents = [];
+
+let currentVideoURL = null;
+
+let currentZoom = 1;
+
+
+/* ==========================================
+   UPLOAD CONTENT
+========================================== */
+
+function uploadContent(){
+
+    const title =
+    document
+    .getElementById("contentTitle")
+    .value
+    .trim();
+
+    const type =
+    document
+    .getElementById("contentType")
+    .value;
+
+    const caption =
+    document
+    .getElementById("contentCaption")
+    .value
+    .trim();
+
+    const thumbnail =
+    document
+    .getElementById("thumbnailFile")
+    .files[0];
+
+    const video =
+    document
+    .getElementById("videoFile")
+    .files[0];
+
+
+    if(!title){
+
+        alert("Title ಬರೆಯಿರಿ.");
+
         return;
-      }
 
-      filtered.forEach((post) => {
-        const card = document.createElement('div');
-        card.className = "post-card";
-        card.innerHTML = `
-          <div class="post-poster" onclick="promptWatchChoice('${post.id}', '${post.title.replace(/'/g, "\\'")}', '${post.desc.replace(/'/g, "\\'")}')">
-            <img src="${post.thumb}" alt="${post.title}">
-            <div class="play-overlay">▶</div>
-          </div>
-          <div class="post-content">
-            <div class="post-title">${post.title}</div>
-            <div class="post-caption">${post.desc}</div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
     }
 
-    // Modal Prompter
-    function promptWatchChoice(videoId, title, desc) {
-      selectedVideo = { id: videoId, title: title, desc: desc };
-      document.getElementById('choiceModal').style.display = 'flex';
-    }
 
-    function closeChoiceModal() {
-      document.getElementById('choiceModal').style.display = 'none';
-    }
+    if(!thumbnail){
 
-    // Option 1: Watch on Website
-    function watchOnWebsite() {
-      if(!selectedVideo) return;
-      const player = document.getElementById('cinemaPlayer');
-      player.src = "https://www.youtube.com/embed/" + selectedVideo.id + "?autoplay=1&enablejsapi=1&origin=https://kathu764-cmyk.github.io";
-      document.getElementById('playingTitle').innerText = selectedVideo.title;
-      document.getElementById('playingDesc').innerText = selectedVideo.desc;
-      closeChoiceModal();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+        alert("Thumbnail ಆಯ್ಕೆ ಮಾಡಿ.");
 
-    // Option 2: Watch on YouTube App Directly
-    function watchOnYoutube() {
-      if(!selectedVideo) return;
-      window.open("https://www.youtube.com/watch?v=" + selectedVideo.id, "_blank");
-      closeChoiceModal();
-    }
-
-    // Screen Sizing System
-    function setScreenSize(size) {
-      const wrapper = document.getElementById('playerWrapper');
-      const btnZoom = document.getElementById('btnZoom');
-      const btnMedium = document.getElementById('btnMedium');
-
-      if(size === 'zoom') {
-        wrapper.classList.add('full-mode');
-        btnZoom.classList.add('active');
-        btnMedium.classList.remove('active');
-      } else {
-        wrapper.classList.remove('full-mode');
-        btnMedium.classList.add('active');
-        btnZoom.classList.remove('active');
-      }
-    }
-
-    // Mobile Edge-to-Edge Fullscreen
-    function triggerDeviceFullscreen() {
-      const el = document.getElementById('cinemaScreen');
-      if (el.requestFullscreen) el.requestFullscreen();
-      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-      else if (el.msRequestFullscreen) el.msRequestFullscreen();
-    }
-
-    // Live Instant Search
-    function filterVideos() {
-      const val = document.getElementById('searchInput').value;
-      renderPosts(val);
-    }
-
-    // Post Creation System
-    function openPostModal() {
-      document.getElementById('adminModal').style.display = 'flex';
-    }
-    function closePostModal() {
-      document.getElementById('adminModal').style.display = 'none';
-    }
-
-    function saveNewPost() {
-      const title = document.getElementById('newTitle').value.trim();
-      const url = document.getElementById('newUrl').value.trim();
-      const customThumb = document.getElementById('newThumb').value.trim();
-      const caption = document.getElementById('newCaption').value.trim();
-
-      if(!title || !url) {
-        alert("ದಯವಿಟ್ಟು ಹೆಸರು ಮತ್ತು YouTube ಲಿಂಕ್ ಹಾಕಿ!");
         return;
-      }
 
-      // Extract ID
-      let vidId = "";
-      if (url.includes("youtu.be/")) {
-        vidId = url.split("youtu.be/")[1].split("?")[0];
-      } else if (url.includes("watch?v=")) {
-        vidId = url.split("watch?v=")[1].split("&")[0];
-      } else {
-        vidId = url;
-      }
-
-      let thumbUrl = customThumb ? customThumb : "https://img.youtube.com/vi/" + vidId + "/hqdefault.jpg";
-
-      posts.unshift({
-        id: vidId,
-        title: title,
-        thumb: thumbUrl,
-        desc: caption || "Kathu_764 ವಿಶೇಷ ವೀಡಿಯೋ."
-      });
-
-      localStorage.setItem('kathu_posts', JSON.stringify(posts));
-      renderPosts();
-      closePostModal();
-
-      // Clear inputs
-      document.getElementById('newTitle').value = "";
-      document.getElementById('newUrl').value = "";
-      document.getElementById('newThumb').value = "";
-      document.getElementById('newCaption').value = "";
     }
 
-    // Start
-    renderPosts();
-  </script>
 
-</body>
-</html>
+    if(!video){
+
+        alert("Video ಆಯ್ಕೆ ಮಾಡಿ.");
+
+        return;
+
+    }
+
+
+    const thumbnailReader =
+    new FileReader();
+
+
+    thumbnailReader.onload = function(event){
+
+        const item = {
+
+            id:Date.now(),
+
+            title:title,
+
+            type:type,
+
+            caption:caption,
+
+            thumbnail:event.target.result,
+
+            videoURL:
+            URL.createObjectURL(video)
+
+        };
+
+
+        contents.unshift(item);
+
+
+        renderContents();
+
+
+        document
+        .getElementById("contentTitle")
+        .value = "";
+
+        document
+        .getElementById("contentCaption")
+        .value = "";
+
+        document
+        .getElementById("thumbnailFile")
+        .value = "";
+
+        document
+        .getElementById("videoFile")
+        .value = "";
+
+
+        closeUploadPanel();
+
+
+        alert(
+        "✅ Content Home pageಗೆ ಸೇರಿಸಲಾಗಿದೆ."
+        );
+
+    };
+
+
+    thumbnailReader.readAsDataURL(thumbnail);
+
+}
+
+
+/* ==========================================
+   RENDER CONTENT
+========================================== */
+
+function renderContents(){
+
+    const featured =
+    document
+    .getElementById("featuredRow");
+
+    const movies =
+    document
+    .getElementById("moviesRow");
+
+    const series =
+    document
+    .getElementById("seriesRow");
+
+
+    if(contents.length === 0){
+
+        featured.innerHTML =
+        '<div class="empty">ಇನ್ನೂ content upload ಆಗಿಲ್ಲ.</div>';
+
+        movies.innerHTML =
+        '<div class="empty">ಇನ್ನೂ Movies ಇಲ್ಲ.</div>';
+
+        series.innerHTML =
+        '<div class="empty">ಇನ್ನೂ Web Series ಇಲ್ಲ.</div>';
+
+        return;
+
+    }
+
+
+    featured.innerHTML =
+    contents
+    .slice(0,10)
+    .map(createCard)
+    .join("");
+
+
+    const movieItems =
+    contents.filter(function(item){
+
+        return item.type === "Movie"
+        || item.type === "Short Film";
+
+    });
+
+
+    const seriesItems =
+    contents.filter(function(item){
+
+        return item.type === "Web Series";
+
+    });
+
+
+    movies.innerHTML =
+    movieItems.length
+    ? movieItems.map(createCard).join("")
+    : '<div class="empty">ಇನ್ನೂ Movies ಇಲ್ಲ.</div>';
+
+
+    series.innerHTML =
+    seriesItems.length
+    ? seriesItems.map(createCard).join("")
+    : '<div class="empty">ಇನ್ನೂ Web Series ಇಲ್ಲ.</div>';
+
+}
+
+
+/* ==========================================
+   CREATE CARD
+========================================== */
+
+function createCard(item){
+
+    const safeTitle =
+    escapeHTML(item.title);
+
+    const safeCaption =
+    escapeHTML(item.caption || item.type);
+
+
+    return `
+
+    <article class="card">
+
+        <img
+        class="poster"
+        src="${item.thumbnail}"
+        alt="${safeTitle}">
+
+        <div class="card-info">
+
+            <div class="card-title">
+                ${safeTitle}
+            </div>
+
+            <div class="card-caption">
+                ${safeCaption}
+            </div>
+
+            <button
+            class="watch-btn"
+            onclick="playContent(${item.id})">
+
+                ▶ Watch
+
+            </button>
+
+            <button
+            class="delete-btn"
+            onclick="deleteContent(${item.id})">
+
+                🗑
+
+            </button>
+
+        </div>
+
+    </article>
+
+    `;
+
+}
+
+
+/* ==========================================
+   PLAY VIDEO
+========================================== */
+
+function playContent(id){
+
+    const item =
+    contents.find(function(x){
+
+        return x.id === id;
+
+    });
+
+
+    if(!item){
+
+        return;
+
+    }
+
+
+    currentVideoURL =
+    item.videoURL;
+
+
+    currentZoom = 1;
+
+
+    const player =
+    document.getElementById("player");
+
+    const video =
+    document.getElementById("mainVideo");
+
+
+    document
+    .getElementById("playerTitle")
+    .textContent =
+    item.title;
+
+
+    video.src =
+    currentVideoURL;
+
+
+    video.style.transform =
+    "scale(1)";
+
+
+    video.style.objectFit =
+    "contain";
+
+
+    player.style.display =
+    "block";
+
+
+    video.play().catch(function(){});
+
+}
+
+
+/* ==========================================
+   CLOSE PLAYER
+========================================== */
+
+function closePlayer(){
+
+    const video =
+    document.getElementById("mainVideo");
+
+
+    video.pause();
+
+    video.removeAttribute("src");
+
+    video.load();
+
+
+    document
+    .getElementById("player")
+    .style.display =
+    "none";
+
+
+    currentVideoURL = null;
+
+}
+
+
+/* ==========================================
+   SEEK
+========================================== */
+
+function seekVideo(seconds){
+
+    const video =
+    document.getElementById("mainVideo");
+
+
+    if(!video.duration){
+
+        return;
+
+    }
+
+
+    video.currentTime =
+    Math.max(
+        0,
+        Math.min(
+            video.duration,
+            video.currentTime + seconds
+        )
+    );
+
+}
+
+
+/* ==========================================
+   ZOOM
+========================================== */
+
+function changeZoom(amount){
+
+    currentZoom += amount;
+
+
+    if(currentZoom < .5){
+
+        currentZoom = .5;
+
+    }
+
+
+    if(currentZoom > 2){
+
+        currentZoom = 2;
+
+    }
+
+
+    document
+    .getElementById("mainVideo")
+    .style.transform =
+    "scale(" + currentZoom + ")";
+
+}
+
+
+/* ==========================================
+   FIT
+========================================== */
+
+function fitVideo(){
+
+    currentZoom = 1;
