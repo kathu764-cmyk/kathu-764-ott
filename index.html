@@ -1,53 +1,76 @@
-here<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="kn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KATHU_764 CINEMA</title>
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>KATHU_764 PRO CINEMA</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: #0c0c0c;
-      color: #fff;
+      background-color: #080808;
+      color: #ffffff;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      padding-bottom: 50px;
+      padding-bottom: 70px;
     }
 
-    /* Animated Brand Header */
+    /* Top Animated Header */
     header {
-      padding: 20px;
-      text-align: center;
-      background: linear-gradient(180deg, rgba(20,20,20,0.9), transparent);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(180deg, #161616 0%, transparent 100%);
+      position: sticky;
+      top: 0;
+      z-index: 99;
     }
     .brand {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 900;
       letter-spacing: 2px;
-      background: linear-gradient(90deg, #ff0055, #ff7700, #ff0055);
-      background-size: 200% auto;
-      color: transparent;
-      -webkit-background-clip: text;
-      animation: neon 3s linear infinite;
+      color: #ff0055;
+      text-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
     }
-    @keyframes neon {
-      to { background-position: 200% center; }
+    .btn-create {
+      background: #ff0055;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
     }
 
-    /* Main Video Screen */
-    .player-box {
-      max-width: 900px;
-      margin: 0 auto 15px auto;
-      padding: 0 15px;
+    /* Main Video Player System */
+    .player-section {
+      width: 100%;
+      max-width: 1000px;
+      margin: 10px auto;
+      padding: 0 12px;
+      transition: all 0.3s ease;
     }
+    /* Full Width & Edge-to-edge Mode */
+    .player-section.full-mode {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 0 20px 0 !important;
+    }
+    .player-section.full-mode .video-frame {
+      border-radius: 0;
+      border: none;
+    }
+
     .video-frame {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 Screen */
+      padding-bottom: 56.25%; /* 16:9 Cinema Aspect */
       height: 0;
-      border-radius: 12px;
-      overflow: hidden;
       background: #000;
+      border-radius: 14px;
+      overflow: hidden;
       border: 1px solid #222;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.9);
     }
     .video-frame iframe {
       position: absolute;
@@ -56,145 +79,460 @@ here<!DOCTYPE html>
       border: none;
     }
 
+    /* Screen Control Action Buttons */
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 0 5px;
+    }
+    .ctrl-btn {
+      background: #181818;
+      border: 1px solid #333;
+      color: #eee;
+      padding: 9px 15px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .ctrl-btn:hover { background: #252525; }
+    .ctrl-btn.active {
+      background: #ff0055;
+      border-color: #ff0055;
+      color: #fff;
+    }
+
+    /* Now Playing Info */
     .now-playing {
-      max-width: 900px;
-      margin: 10px auto 25px auto;
+      max-width: 1000px;
+      margin: 15px auto 25px auto;
       padding: 0 18px;
       text-align: left;
     }
     .movie-title {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
-      color: #ff0055;
+      color: #fff;
     }
-    .movie-sub {
-      font-size: 13px;
-      color: #888;
-      margin-top: 4px;
+    .movie-desc {
+      font-size: 14px;
+      color: #aaa;
+      margin-top: 6px;
+      line-height: 1.5;
     }
 
-    /* Movie Selection Gallery */
-    .list-title {
-      max-width: 900px;
-      margin: 20px auto 10px auto;
-      padding: 0 18px;
-      text-align: left;
-      font-size: 17px;
-      font-weight: bold;
-      border-left: 4px solid #ff0055;
-      padding-left: 8px;
+    /* Search Bar with Large Spacing */
+    .search-box {
+      max-width: 1000px;
+      margin: 30px auto 25px auto;
+      padding: 0 16px;
     }
-    .movie-grid {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 15px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 15px;
+    .search-input {
+      width: 100%;
+      background: #151515;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 15px 20px;
+      font-size: 15px;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s;
     }
-    .movie-card {
-      background: #181818;
-      border-radius: 10px;
-      overflow: hidden;
-      cursor: pointer;
-      border: 1px solid #252525;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-    .movie-card:active {
-      transform: scale(0.96);
+    .search-input:focus {
       border-color: #ff0055;
     }
-    .movie-card img {
+
+    /* Post Feed (Clean, Spacious, Not Cluttered) */
+    .feed-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 35px; /* Clean gap between cards */
+    }
+    .post-card {
+      background: #121212;
+      border-radius: 16px;
+      border: 1px solid #242424;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      text-align: left;
+    }
+    .post-poster {
       width: 100%;
-      height: 200px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .post-poster img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       display: block;
     }
-    .card-details {
-      padding: 10px;
+    .play-overlay {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 0, 85, 0.85);
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255,0,85,0.6);
+    }
+    .post-content {
+      padding: 18px 20px;
+    }
+    .post-title {
+      font-size: 19px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .post-caption {
+      font-size: 14px;
+      color: #bbb;
+      line-height: 1.6;
+    }
+
+    /* Watch Choice Modal Popup */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: #181818;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 25px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+    .modal-box h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .modal-box p {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 22px;
+    }
+    .choice-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      margin-bottom: 12px;
+    }
+    .btn-website {
+      background: #ff0055;
+      color: white;
+    }
+    .btn-youtube {
+      background: #252525;
+      border: 1px solid #444;
+      color: #ff3333;
+    }
+    .btn-close {
+      background: transparent;
+      border: none;
+      color: #666;
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    /* Admin Post Creation Modal */
+    .admin-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1001;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .admin-box {
+      background: #181818;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 22px;
+      max-width: 480px;
+      width: 100%;
       text-align: left;
     }
-    .card-name {
-      font-size: 13px;
-      font-weight: bold;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .admin-input {
+      width: 100%;
+      background: #101010;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 14px;
+      outline: none;
     }
-    .card-tag {
-      font-size: 11px;
-      color: #ff0055;
-      margin-top: 4px;
-      font-weight: 600;
-    }
+    .admin-input:focus { border-color: #ff0055; }
   </style>
 </head>
 <body>
 
+  <!-- Header -->
   <header>
     <div class="brand">KATHU_764</div>
+    <button class="btn-create" onclick="openPostModal()">+ Post Video</button>
   </header>
 
-  <!-- Player Screen -->
-  <div class="player-box">
-    <div class="video-frame">
-      <!-- ನಿಮ್ಮ ಹಾಡು ನೇರವಾಗಿ ಇಲ್ಲಿ ಲೋಡ್ ಆಗಿದೆ -->
-      <iframe id="cinemaPlayer" src="https://www.youtube.com/embed/-E0P159qjwk?autoplay=0" allowfullscreen allow="autoplay"></iframe>
+  <!-- Big Cinema Screen -->
+  <div class="player-section" id="playerWrapper">
+    <div class="video-frame" id="cinemaScreen">
+      <iframe id="cinemaPlayer" 
+        src="https://www.youtube.com/embed/-E0P159qjwk?enablejsapi=1&rel=0&modestbranding=1" 
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- Screen Size & Control Action Buttons -->
+    <div class="controls-bar">
+      <button class="ctrl-btn" onclick="setScreenSize('zoom')" id="btnZoom">🔍 Full Page Zoom</button>
+      <button class="ctrl-btn active" onclick="setScreenSize('medium')" id="btnMedium">📺 Medium Size (Default)</button>
+      <button class="ctrl-btn" onclick="triggerDeviceFullscreen()">⛶ Phone Fullscreen</button>
     </div>
   </div>
 
+  <!-- Now Playing Info -->
   <div class="now-playing">
     <div class="movie-title" id="playingTitle">ಮೌನದ ಅಲೆಗಳು (Mouna Nadi)</div>
-    <div class="movie-sub" id="playingSub">Kathu_764 Exclusive • Full HD</div>
+    <div class="movie-desc" id="playingDesc">ಹರಿಯುವ ನದಿಯಲ್ಲೂ ಅಡಗಿದೆ ಹೇಳಲಾಗದ ಮೌನ... ಕೆಲವೊಮ್ಮೆ ಮಾತಿಗಿಂತ ನಿಶ್ಯಬ್ದವೇ ಹೆಚ್ಚು ಆಳ. Kathu_764 Exclusive.</div>
   </div>
 
-  <!-- Movie / Song Selection List -->
-  <div class="list-title">ಇನ್ನಷ್ಟು ವೀಡಿಯೋಗಳು (Click to Watch)</div>
-  <div class="movie-grid">
+  <!-- Live Search Bar -->
+  <div class="search-box">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 ಸಿನಿಮಾಗಳು ಅಥವಾ ಹಾಡುಗಳನ್ನು ಹುಡುಕಿ (Search here...)" onkeyup="filterVideos()">
+  </div>
 
-    <!-- Item 1: ನಿಮ್ಮ ಹಾಡು -->
-    <div class="movie-card" onclick="changeMovie('-E0P159qjwk', 'ಮೌನದ ಅಲೆಗಳು (Mouna Nadi)', 'Kathu_764 Exclusive • Full HD')">
-      <img src="https://img.youtube.com/vi/-E0P159qjwk/hqdefault.jpg" alt="Mouna Nadi">
-      <div class="card-details">
-        <div class="card-name">ಮೌನದ ಅಲೆಗಳು</div>
-        <div class="card-tag">▶ ವೀಕ್ಷಿಸಿ (HD)</div>
+  <!-- Spacious Posts Feed -->
+  <div class="feed-container" id="postsContainer"></div>
+
+  <!-- Watch Option Choice Modal -->
+  <div class="modal-backdrop" id="choiceModal">
+    <div class="modal-box">
+      <h3>Where do you want to watch?</h3>
+      <p>Choose your viewing option</p>
+      <button class="choice-btn btn-website" onclick="watchOnWebsite()">🌐 Watch on Website (Full Quality)</button>
+      <button class="choice-btn btn-youtube" onclick="watchOnYoutube()">▶ Watch on YouTube App</button>
+      <br>
+      <button class="btn-close" onclick="closeChoiceModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Create Post Modal -->
+  <div class="admin-modal" id="adminModal">
+    <div class="admin-box">
+      <h3 style="margin-bottom: 15px; color:#fff;">ಹೊಸ ವೀಡಿಯೋ ಪೋಸ್ಟ್ ಮಾಡಿ</h3>
+      <input type="text" id="newTitle" class="admin-input" placeholder="ವೀಡಿಯೋ / ಸಿನಿಮಾ ಹೆಸರು (Title)">
+      <input type="text" id="newUrl" class="admin-input" placeholder="YouTube Link (Paste URL)">
+      <input type="text" id="newThumb" class="admin-input" placeholder="ಕಸ್ಟಮ್ ಪೋಸ್ಟರ್ ಫೋಟೋ ಲಿಂಕ್ (ಖಾಲಿ ಬಿಟ್ಟರೆ YT ಥಂಬ್‌ನೇಲ್ ಬರುತ್ತದೆ)">
+      <textarea id="newCaption" class="admin-input" rows="3" placeholder="ಕ್ಯಾಪ್ಷನ್ / ವಿವರಣೆ ಬರೆಯಿರಿ (Caption)"></textarea>
+      
+      <div style="display:flex; justify-content: flex-end; gap: 10px;">
+        <button class="ctrl-btn" onclick="closePostModal()">ರದ್ದು (Cancel)</button>
+        <button class="btn-create" onclick="saveNewPost()">ಪೋಸ್ಟ್ ಮಾಡಿ (Publish)</button>
       </div>
     </div>
-
-    <!-- Item 2 -->
-    <div class="movie-card" onclick="changeMovie('L_LUpnjgPso', 'ಆಕ್ಷನ್ ಸಿನಿಮಾ (Movie 2)', 'Special Feature • Full HD')">
-      <img src="https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400&q=80" alt="Movie 2">
-      <div class="card-details">
-        <div class="card-name">ಆಕ್ಷನ್ ಸಿನಿಮಾ 2</div>
-        <div class="card-tag">▶ ವೀಕ್ಷಿಸಿ (HD)</div>
-      </div>
-    </div>
-
-    <!-- Item 3 -->
-    <div class="movie-card" onclick="changeMovie('kJQP7kiw5Fk', 'ರೊಮ್ಯಾಂಟಿಕ್ ಸಿನಿಮಾ (Movie 3)', 'Romantic Drama • Full HD')">
-      <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&q=80" alt="Movie 3">
-      <div class="card-details">
-        <div class="card-name">ಲವ್ ಸ್ಟೋರಿ 3</div>
-        <div class="card-tag">▶ ವೀಕ್ಷಿಸಿ (HD)</div>
-      </div>
-    </div>
-
   </div>
 
   <script>
-    function changeMovie(videoId, titleText, subText) {
-      const player = document.getElementById('cinemaPlayer');
-      const title = document.getElementById('playingTitle');
-      const sub = document.getElementById('playingSub');
-      
-      // Update video and autoplay
-      player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-      title.innerText = titleText;
-      sub.innerText = subText;
+    // Initial Movie Posts List
+    let initialPosts = [
+      {
+        id: "-E0P159qjwk",
+        title: "ಮೌನದ ಅಲೆಗಳು (Mouna Nadi)",
+        thumb: "https://img.youtube.com/vi/-E0P159qjwk/hqdefault.jpg",
+        desc: "ಹರಿಯುವ ನದಿಯಲ್ಲೂ ಅಡಗಿದೆ ಹೇಳಲಾಗದ ಮೌನ... ಕೆಲವೊಮ್ಮೆ ಮಾತಿಗಿಂತ ನಿಶ್ಯಬ್ದವೇ ಹೆಚ್ಚು ಆಳ. Kathu_764 Exclusive."
+      },
+      {
+        id: "L_LUpnjgPso",
+        title: "ಆಕ್ಷನ್ ಸಿನಿಮಾ ಟ್ರೇಲರ್ (Action Trailer)",
+        thumb: "https://img.youtube.com/vi/L_LUpnjgPso/hqdefault.jpg",
+        desc: "ರೋಮಾಂಚಕ ಆಕ್ಷನ್ ದೃಶ್ಯಗಳು ಮತ್ತು ಭರ್ಜರಿ ಮನರಂಜನೆ. ಈಗಲೇ ವೀಕ್ಷಿಸಿ!"
+      }
+    ];
 
-      // Smooth scroll to top for easy watching
+    // Load from Storage or Defaults
+    let saved = localStorage.getItem('kathu_posts');
+    let posts = saved ? JSON.parse(saved) : initialPosts;
+
+    let selectedVideo = null;
+
+    // Render Posts with spacious layout
+    function renderPosts(filter = "") {
+      const container = document.getElementById('postsContainer');
+      container.innerHTML = "";
+
+      const filtered = posts.filter(p => p.title.toLowerCase().includes(filter.toLowerCase()) || p.desc.toLowerCase().includes(filter.toLowerCase()));
+
+      if(filtered.length === 0) {
+        container.innerHTML = "<p style='color:#777; text-align:center; padding:30px;'>ಯಾವುದೇ ವೀಡಿಯೋಗಳು ಕಂಡುಬಂದಿಲ್ಲ (No results found)</p>";
+        return;
+      }
+
+      filtered.forEach((post) => {
+        const card = document.createElement('div');
+        card.className = "post-card";
+        card.innerHTML = `
+          <div class="post-poster" onclick="promptWatchChoice('${post.id}', '${post.title.replace(/'/g, "\\'")}', '${post.desc.replace(/'/g, "\\'")}')">
+            <img src="${post.thumb}" alt="${post.title}">
+            <div class="play-overlay">▶</div>
+          </div>
+          <div class="post-content">
+            <div class="post-title">${post.title}</div>
+            <div class="post-caption">${post.desc}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Modal Prompter
+    function promptWatchChoice(videoId, title, desc) {
+      selectedVideo = { id: videoId, title: title, desc: desc };
+      document.getElementById('choiceModal').style.display = 'flex';
+    }
+
+    function closeChoiceModal() {
+      document.getElementById('choiceModal').style.display = 'none';
+    }
+
+    // Option 1: Watch on Website
+    function watchOnWebsite() {
+      if(!selectedVideo) return;
+      const player = document.getElementById('cinemaPlayer');
+      player.src = "https://www.youtube.com/embed/" + selectedVideo.id + "?autoplay=1&enablejsapi=1&origin=https://kathu764-cmyk.github.io";
+      document.getElementById('playingTitle').innerText = selectedVideo.title;
+      document.getElementById('playingDesc').innerText = selectedVideo.desc;
+      closeChoiceModal();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // Option 2: Watch on YouTube App Directly
+    function watchOnYoutube() {
+      if(!selectedVideo) return;
+      window.open("https://www.youtube.com/watch?v=" + selectedVideo.id, "_blank");
+      closeChoiceModal();
+    }
+
+    // Screen Sizing System
+    function setScreenSize(size) {
+      const wrapper = document.getElementById('playerWrapper');
+      const btnZoom = document.getElementById('btnZoom');
+      const btnMedium = document.getElementById('btnMedium');
+
+      if(size === 'zoom') {
+        wrapper.classList.add('full-mode');
+        btnZoom.classList.add('active');
+        btnMedium.classList.remove('active');
+      } else {
+        wrapper.classList.remove('full-mode');
+        btnMedium.classList.add('active');
+        btnZoom.classList.remove('active');
+      }
+    }
+
+    // Mobile Edge-to-Edge Fullscreen
+    function triggerDeviceFullscreen() {
+      const el = document.getElementById('cinemaScreen');
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    }
+
+    // Live Instant Search
+    function filterVideos() {
+      const val = document.getElementById('searchInput').value;
+      renderPosts(val);
+    }
+
+    // Post Creation System
+    function openPostModal() {
+      document.getElementById('adminModal').style.display = 'flex';
+    }
+    function closePostModal() {
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function saveNewPost() {
+      const title = document.getElementById('newTitle').value.trim();
+      const url = document.getElementById('newUrl').value.trim();
+      const customThumb = document.getElementById('newThumb').value.trim();
+      const caption = document.getElementById('newCaption').value.trim();
+
+      if(!title || !url) {
+        alert("ದಯವಿಟ್ಟು ಹೆಸರು ಮತ್ತು YouTube ಲಿಂಕ್ ಹಾಕಿ!");
+        return;
+      }
+
+      // Extract ID
+      let vidId = "";
+      if (url.includes("youtu.be/")) {
+        vidId = url.split("youtu.be/")[1].split("?")[0];
+      } else if (url.includes("watch?v=")) {
+        vidId = url.split("watch?v=")[1].split("&")[0];
+      } else {
+        vidId = url;
+      }
+
+      let thumbUrl = customThumb ? customThumb : "https://img.youtube.com/vi/" + vidId + "/hqdefault.jpg";
+
+      posts.unshift({
+        id: vidId,
+        title: title,
+        thumb: thumbUrl,
+        desc: caption || "Kathu_764 ವಿಶೇಷ ವೀಡಿಯೋ."
+      });
+
+      localStorage.setItem('kathu_posts', JSON.stringify(posts));
+      renderPosts();
+      closePostModal();
+
+      // Clear inputs
+      document.getElementById('newTitle').value = "";
+      document.getElementById('newUrl').value = "";
+      document.getElementById('newThumb').value = "";
+      document.getElementById('newCaption').value = "";
+    }
+
+    // Start
+    renderPosts();
   </script>
 
 </body>
