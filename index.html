@@ -819,84 +819,61 @@ footer{
 <script>
 
 /* ==========================================
-   UPLOAD ACCESS
-   ONLY CODE 1962 OPENS UPLOAD
+   UPLOAD ACCESS (CODE: 1962)
 ========================================== */
 
 const UPLOAD_CODE = "1962";
 
 
 function openUploadGate(){
-
-    const gate =
-    document.getElementById("uploadGate");
-
+    const gate = document.getElementById("uploadGate");
     gate.style.display = "flex";
-
     document.getElementById("uploadCode").value = "";
-
     document.getElementById("errorMessage").textContent = "";
 
     setTimeout(function(){
-
-        document
-        .getElementById("uploadCode")
-        .focus();
-
+        document.getElementById("uploadCode").focus();
     },100);
-
 }
 
 
 function closeUploadGate(){
-
-    document
-    .getElementById("uploadGate")
-    .style.display = "none";
-
+    document.getElementById("uploadGate").style.display = "none";
 }
 
 
 function checkUploadCode(){
-
-    const entered =
-    document
-    .getElementById("uploadCode")
-    .value;
+    const entered = document.getElementById("uploadCode").value;
 
     if(entered === UPLOAD_CODE){
-
         closeUploadGate();
-
         openUploadPanel();
-
+    } else {
+        document.getElementById("errorMessage").textContent = "❌ Wrong code. Upload option is locked.";
     }
-
-    else{
-
-        document
-        .getElementById("errorMessage")
-        .textContent =
-        "❌ Wrong code. Upload option is locked.";
-
-    }
-
 }
 
 
 /* ENTER KEY */
-
-document
-.getElementById("uploadCode")
-.addEventListener("keydown",function(event){
-
+document.getElementById("uploadCode").addEventListener("keydown", function(event){
     if(event.key === "Enter"){
-
         checkUploadCode();
-
     }
-
 });
+
+
+/* ==========================================
+   ACCOUNT & NAVIGATION
+========================================== */
+
+function toggleAccount(){
+    const panel = document.getElementById("accountPanel");
+    panel.style.display = (panel.style.display === "block") ? "none" : "block";
+}
+
+function scrollToContent(){
+    document.getElementById("content").scrollIntoView({ behavior: "smooth" });
+}
 
 
 /* ==========================================
@@ -904,39 +881,45 @@ document
 ========================================== */
 
 function openUploadPanel(){
-
-    document
-    .getElementById("uploadPanel")
-    .style.display = "block";
-
-    document
-    .getElementById("uploadPanel")
-    .scrollIntoView({
+    document.getElementById("uploadPanel").style.display = "block";
+    document.getElementById("uploadPanel").scrollIntoView({
         behavior:"smooth",
         block:"center"
     });
-
 }
 
 
 function closeUploadPanel(){
-
-    document
-    .getElementById("uploadPanel")
-    .style.display = "none";
-
+    document.getElementById("uploadPanel").style.display = "none";
 }
 
 
 /* ==========================================
-   CONTENT STORAGE
+   CONTENT STORAGE & STATE
 ========================================== */
 
 let contents = [];
-
 let currentVideoURL = null;
-
 let currentZoom = 1;
+
+
+/* ==========================================
+   SECURITY HELPER
+========================================== */
+
+function escapeHTML(str){
+    if(!str) return "";
+    return str.replace(/[&<>'"]/g, function(tag){
+        const chars = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+        };
+        return chars[tag] || tag;
+    });
+}
 
 
 /* ==========================================
@@ -944,121 +927,52 @@ let currentZoom = 1;
 ========================================== */
 
 function uploadContent(){
-
-    const title =
-    document
-    .getElementById("contentTitle")
-    .value
-    .trim();
-
-    const type =
-    document
-    .getElementById("contentType")
-    .value;
-
-    const caption =
-    document
-    .getElementById("contentCaption")
-    .value
-    .trim();
-
-    const thumbnail =
-    document
-    .getElementById("thumbnailFile")
-    .files[0];
-
-    const video =
-    document
-    .getElementById("videoFile")
-    .files[0];
-
+    const title = document.getElementById("contentTitle").value.trim();
+    const type = document.getElementById("contentType").value;
+    const caption = document.getElementById("contentCaption").value.trim();
+    const thumbnail = document.getElementById("thumbnailFile").files[0];
+    const video = document.getElementById("videoFile").files[0];
 
     if(!title){
-
         alert("Title ಬರೆಯಿರಿ.");
-
         return;
-
     }
-
 
     if(!thumbnail){
-
         alert("Thumbnail ಆಯ್ಕೆ ಮಾಡಿ.");
-
         return;
-
     }
-
 
     if(!video){
-
         alert("Video ಆಯ್ಕೆ ಮಾಡಿ.");
-
         return;
-
     }
 
-
-    const thumbnailReader =
-    new FileReader();
-
+    const thumbnailReader = new FileReader();
 
     thumbnailReader.onload = function(event){
-
         const item = {
-
-            id:Date.now(),
-
-            title:title,
-
-            type:type,
-
-            caption:caption,
-
-            thumbnail:event.target.result,
-
-            videoURL:
-            URL.createObjectURL(video)
-
+            id: Date.now(),
+            title: title,
+            type: type,
+            caption: caption,
+            thumbnail: event.target.result,
+            videoURL: URL.createObjectURL(video)
         };
 
-
         contents.unshift(item);
-
-
         renderContents();
 
-
-        document
-        .getElementById("contentTitle")
-        .value = "";
-
-        document
-        .getElementById("contentCaption")
-        .value = "";
-
-        document
-        .getElementById("thumbnailFile")
-        .value = "";
-
-        document
-        .getElementById("videoFile")
-        .value = "";
-
+        document.getElementById("contentTitle").value = "";
+        document.getElementById("contentCaption").value = "";
+        document.getElementById("thumbnailFile").value = "";
+        document.getElementById("videoFile").value = "";
 
         closeUploadPanel();
-
-
-        alert(
-        "✅ Content Home pageಗೆ ಸೇರಿಸಲಾಗಿದೆ."
-        );
-
+        alert("✅ Content Home pageಗೆ ಸೇರಿಸಲಾಗಿದೆ.");
     };
 
-
     thumbnailReader.readAsDataURL(thumbnail);
-
 }
 
 
@@ -1067,128 +981,63 @@ function uploadContent(){
 ========================================== */
 
 function renderContents(){
-
-    const featured =
-    document
-    .getElementById("featuredRow");
-
-    const movies =
-    document
-    .getElementById("moviesRow");
-
-    const series =
-    document
-    .getElementById("seriesRow");
-
+    const featured = document.getElementById("featuredRow");
+    const movies = document.getElementById("moviesRow");
+    const series = document.getElementById("seriesRow");
 
     if(contents.length === 0){
-
-        featured.innerHTML =
-        '<div class="empty">ಇನ್ನೂ content upload ಆಗಿಲ್ಲ.</div>';
-
-        movies.innerHTML =
-        '<div class="empty">ಇನ್ನೂ Movies ಇಲ್ಲ.</div>';
-
-        series.innerHTML =
-        '<div class="empty">ಇನ್ನೂ Web Series ಇಲ್ಲ.</div>';
-
+        featured.innerHTML = '<div class="empty">ಇನ್ನೂ content upload ಆಗಿಲ್ಲ.</div>';
+        movies.innerHTML = '<div class="empty">ಇನ್ನೂ Movies ಇಲ್ಲ.</div>';
+        series.innerHTML = '<div class="empty">ಇನ್ನೂ Web Series ಇಲ್ಲ.</div>';
         return;
-
     }
 
+    featured.innerHTML = contents.slice(0,10).map(createCard).join("");
 
-    featured.innerHTML =
-    contents
-    .slice(0,10)
-    .map(createCard)
-    .join("");
-
-
-    const movieItems =
-    contents.filter(function(item){
-
-        return item.type === "Movie"
-        || item.type === "Short Film";
-
+    const movieItems = contents.filter(function(item){
+        return item.type === "Movie" || item.type === "Short Film";
     });
 
-
-    const seriesItems =
-    contents.filter(function(item){
-
+    const seriesItems = contents.filter(function(item){
         return item.type === "Web Series";
-
     });
 
+    movies.innerHTML = movieItems.length
+        ? movieItems.map(createCard).join("")
+        : '<div class="empty">ಇನ್ನೂ Movies ಇಲ್ಲ.</div>';
 
-    movies.innerHTML =
-    movieItems.length
-    ? movieItems.map(createCard).join("")
-    : '<div class="empty">ಇನ್ನೂ Movies ಇಲ್ಲ.</div>';
-
-
-    series.innerHTML =
-    seriesItems.length
-    ? seriesItems.map(createCard).join("")
-    : '<div class="empty">ಇನ್ನೂ Web Series ಇಲ್ಲ.</div>';
-
+    series.innerHTML = seriesItems.length
+        ? seriesItems.map(createCard).join("")
+        : '<div class="empty">ಇನ್ನೂ Web Series ಇಲ್ಲ.</div>';
 }
 
 
 /* ==========================================
-   CREATE CARD
+   CREATE CARD & DELETE
 ========================================== */
 
 function createCard(item){
-
-    const safeTitle =
-    escapeHTML(item.title);
-
-    const safeCaption =
-    escapeHTML(item.caption || item.type);
-
+    const safeTitle = escapeHTML(item.title);
+    const safeCaption = escapeHTML(item.caption || item.type);
 
     return `
-
     <article class="card">
-
-        <img
-        class="poster"
-        src="${item.thumbnail}"
-        alt="${safeTitle}">
-
+        <img class="poster" src="${item.thumbnail}" alt="${safeTitle}">
         <div class="card-info">
-
-            <div class="card-title">
-                ${safeTitle}
-            </div>
-
-            <div class="card-caption">
-                ${safeCaption}
-            </div>
-
-            <button
-            class="watch-btn"
-            onclick="playContent(${item.id})">
-
-                ▶ Watch
-
-            </button>
-
-            <button
-            class="delete-btn"
-            onclick="deleteContent(${item.id})">
-
-                🗑
-
-            </button>
-
+            <div class="card-title">${safeTitle}</div>
+            <div class="card-caption">${safeCaption}</div>
+            <button class="watch-btn" onclick="playContent(${item.id})">▶ Watch</button>
+            <button class="delete-btn" onclick="deleteContent(${item.id})">🗑</button>
         </div>
-
     </article>
-
     `;
+}
 
+function deleteContent(id){
+    if(confirm("ಈ content ಡಿಲೀಟ್ ಮಾಡಬೇಕೆ?")){
+        contents = contents.filter(function(item){ return item.id !== id; });
+        renderContents();
+    }
 }
 
 
@@ -1197,60 +1046,22 @@ function createCard(item){
 ========================================== */
 
 function playContent(id){
+    const item = contents.find(function(x){ return x.id === id; });
+    if(!item) return;
 
-    const item =
-    contents.find(function(x){
-
-        return x.id === id;
-
-    });
-
-
-    if(!item){
-
-        return;
-
-    }
-
-
-    currentVideoURL =
-    item.videoURL;
-
-
+    currentVideoURL = item.videoURL;
     currentZoom = 1;
 
+    const player = document.getElementById("player");
+    const video = document.getElementById("mainVideo");
 
-    const player =
-    document.getElementById("player");
-
-    const video =
-    document.getElementById("mainVideo");
-
-
-    document
-    .getElementById("playerTitle")
-    .textContent =
-    item.title;
-
-
-    video.src =
-    currentVideoURL;
-
-
-    video.style.transform =
-    "scale(1)";
-
-
-    video.style.objectFit =
-    "contain";
-
-
-    player.style.display =
-    "block";
-
+    document.getElementById("playerTitle").textContent = item.title;
+    video.src = currentVideoURL;
+    video.style.transform = "scale(1)";
+    video.style.objectFit = "contain";
+    player.style.display = "block";
 
     video.play().catch(function(){});
-
 }
 
 
@@ -1259,93 +1070,68 @@ function playContent(id){
 ========================================== */
 
 function closePlayer(){
-
-    const video =
-    document.getElementById("mainVideo");
-
-
+    const video = document.getElementById("mainVideo");
     video.pause();
-
     video.removeAttribute("src");
-
     video.load();
-
-
-    document
-    .getElementById("player")
-    .style.display =
-    "none";
-
-
+    document.getElementById("player").style.display = "none";
     currentVideoURL = null;
-
 }
 
 
 /* ==========================================
-   SEEK
+   SEEK CONTROLS
 ========================================== */
 
 function seekVideo(seconds){
-
-    const video =
-    document.getElementById("mainVideo");
-
-
-    if(!video.duration){
-
-        return;
-
-    }
-
-
-    video.currentTime =
-    Math.max(
-        0,
-        Math.min(
-            video.duration,
-            video.currentTime + seconds
-        )
-    );
-
+    const video = document.getElementById("mainVideo");
+    if(!video.duration) return;
+    video.currentTime = Math.max(0, Math.min(video.duration, video.currentTime + seconds));
 }
 
 
 /* ==========================================
-   ZOOM
+   ZOOM & DISPLAY CONTROLS
 ========================================== */
 
 function changeZoom(amount){
-
     currentZoom += amount;
+    if(currentZoom < 0.5) currentZoom = 0.5;
+    if(currentZoom > 2.5) currentZoom = 2.5;
 
-
-    if(currentZoom < .5){
-
-        currentZoom = .5;
-
-    }
-
-
-    if(currentZoom > 2){
-
-        currentZoom = 2;
-
-    }
-
-
-    document
-    .getElementById("mainVideo")
-    .style.transform =
-    "scale(" + currentZoom + ")";
-
+    document.getElementById("mainVideo").style.transform = "scale(" + currentZoom + ")";
 }
 
-
-/* ==========================================
-   FIT
-========================================== */
-
 function fitVideo(){
-
     currentZoom = 1;
+    const video = document.getElementById("mainVideo");
+    video.style.transform = "scale(1)";
+    video.style.objectFit = "contain";
+}
+
+function fillVideo(){
+    const video = document.getElementById("mainVideo");
+    video.style.objectFit = "cover";
+}
+
+function fullscreenVideo(){
+    const video = document.getElementById("mainVideo");
+    if(video.requestFullscreen){
+        video.requestFullscreen();
+    } else if(video.webkitRequestFullscreen){
+        video.webkitRequestFullscreen();
+    } else if(video.msRequestFullscreen){
+        video.msRequestFullscreen();
+    }
+}
+
+// Click outside account dropdown to close
+window.onclick = function(e){
+    if(!e.target.closest('#accountPanel') && !e.target.closest('.header-btn')){
+        document.getElementById('accountPanel').style.display = 'none';
+    }
+}
+</script>
+
+</body>
+</html>
