@@ -1,255 +1,199 @@
-<!DOCTYPE html>
+here<!DOCTYPE html>
 <html lang="kn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KATHU_764 PRO OTT</title>
+  <title>KATHU_764 CINEMA</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: radial-gradient(circle at top, #141414 0%, #050505 100%);
-      color: #ffffff;
-      font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 15px 60px;
+      background-color: #0c0c0c;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding-bottom: 50px;
     }
 
-    /* KATHU_764 Animated Logo */
-    .brand-container {
-      margin-bottom: 25px;
+    /* Animated Brand Header */
+    header {
+      padding: 20px;
       text-align: center;
+      background: linear-gradient(180deg, rgba(20,20,20,0.9), transparent);
     }
-    .logo-animated {
-      font-size: 32px;
+    .brand {
+      font-size: 28px;
       font-weight: 900;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, #ff0055, #ff5500, #ff0055);
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff0055, #ff7700, #ff0055);
       background-size: 200% auto;
       color: transparent;
       -webkit-background-clip: text;
-      animation: shine 3s linear infinite;
-      display: inline-block;
-      text-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+      animation: neon 3s linear infinite;
     }
-    @keyframes shine {
+    @keyframes neon {
       to { background-position: 200% center; }
     }
-    .pro-badge {
-      background: #e50914;
-      color: #fff;
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-weight: bold;
-      vertical-align: middle;
-      letter-spacing: 1px;
-    }
 
-    /* Admin Input Card */
-    .control-card {
-      width: 100%;
-      max-width: 850px;
-      background: rgba(20, 20, 20, 0.85);
-      backdrop-filter: blur(10px);
-      border: 1px solid #2a2a2a;
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-      margin-bottom: 25px;
-    }
-    .input-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    @media(min-width: 600px) {
-      .input-grid {
-        flex-direction: row;
-      }
-      .pass-field { flex: 1; }
-      .url-field { flex: 2.5; }
-    }
-    .input-style {
-      background: #111;
-      border: 1px solid #333;
-      color: #fff;
-      padding: 14px;
-      font-size: 14px;
-      border-radius: 8px;
-      outline: none;
-      transition: 0.3s;
-    }
-    .input-style:focus {
-      border-color: #ff0055;
-      box-shadow: 0 0 8px rgba(255, 0, 85, 0.3);
-    }
-    .btn-play {
-      background: linear-gradient(45deg, #e50914, #ff334b);
-      color: #fff;
-      border: none;
-      padding: 14px 20px;
-      font-size: 15px;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-play:active {
-      transform: scale(0.98);
-    }
-    #status-msg {
-      margin-top: 10px;
-      font-size: 13px;
-      display: none;
-    }
-
-    /* Responsive Cinema Video Player */
-    .player-wrapper {
-      width: 100%;
+    /* Main Video Screen */
+    .player-box {
       max-width: 900px;
-      background: #000;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #222;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.9);
-      position: relative;
+      margin: 0 auto 15px auto;
+      padding: 0 15px;
     }
-    .video-aspect-box {
+    .video-frame {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 Screen ratio */
+      padding-bottom: 56.25%; /* 16:9 Screen */
       height: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid #222;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     }
-    .video-aspect-box iframe {
+    .video-frame iframe {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       border: none;
     }
 
-    /* Screen Action Bar */
-    .screen-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #111;
-      padding: 10px 16px;
-      border-top: 1px solid #222;
+    .now-playing {
+      max-width: 900px;
+      margin: 10px auto 25px auto;
+      padding: 0 18px;
+      text-align: left;
     }
-    .action-btn {
-      background: #222;
-      border: 1px solid #444;
-      color: #eee;
-      padding: 8px 14px;
-      font-size: 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .movie-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ff0055;
     }
-    .action-btn:hover {
-      background: #333;
-      border-color: #777;
+    .movie-sub {
+      font-size: 13px;
+      color: #888;
+      margin-top: 4px;
     }
 
-    /* Responsive tweaks for Mobile */
-    @media(max-width: 600px) {
-      .logo-animated { font-size: 24px; }
-      body { padding: 15px 10px 40px; }
+    /* Movie Selection Gallery */
+    .list-title {
+      max-width: 900px;
+      margin: 20px auto 10px auto;
+      padding: 0 18px;
+      text-align: left;
+      font-size: 17px;
+      font-weight: bold;
+      border-left: 4px solid #ff0055;
+      padding-left: 8px;
+    }
+    .movie-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 15px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 15px;
+    }
+    .movie-card {
+      background: #181818;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid #252525;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .movie-card:active {
+      transform: scale(0.96);
+      border-color: #ff0055;
+    }
+    .movie-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .card-details {
+      padding: 10px;
+      text-align: left;
+    }
+    .card-name {
+      font-size: 13px;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-tag {
+      font-size: 11px;
+      color: #ff0055;
+      margin-top: 4px;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
 
-  <!-- Animated Header -->
-  <div class="brand-container">
-    <div class="logo-animated">KATHU_764</div>
-    <span class="pro-badge">PRO CINEMA</span>
+  <header>
+    <div class="brand">KATHU_764</div>
+  </header>
+
+  <!-- Player Screen -->
+  <div class="player-box">
+    <div class="video-frame">
+      <!-- ನಿಮ್ಮ ಹಾಡು ನೇರವಾಗಿ ಇಲ್ಲಿ ಲೋಡ್ ಆಗಿದೆ -->
+      <iframe id="cinemaPlayer" src="https://www.youtube.com/embed/-E0P159qjwk?autoplay=0" allowfullscreen allow="autoplay"></iframe>
+    </div>
   </div>
 
-  <!-- Real-Time Password & URL Panel -->
-  <div class="control-card">
-    <div class="input-grid">
-      <input type="password" id="passCode" class="input-style pass-field" placeholder="ಪಾಸ್‌ವರ್ಡ್ (1962)">
-      <input type="text" id="ytUrl" class="input-style url-field" placeholder="Paste YouTube link here...">
-      <button class="btn-play" onclick="launchCinema()">PLAY NOW</button>
-    </div>
-    <div id="status-msg"></div>
+  <div class="now-playing">
+    <div class="movie-title" id="playingTitle">ಮೌನದ ಅಲೆಗಳು (Mouna Nadi)</div>
+    <div class="movie-sub" id="playingSub">Kathu_764 Exclusive • Full HD</div>
   </div>
 
-  <!-- All-Screen Adaptive Video Player -->
-  <div class="player-wrapper" id="cinemaScreen">
-    <div class="video-aspect-box">
-      <iframe id="mainPlayer" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  <!-- Movie / Song Selection List -->
+  <div class="list-title">ಇನ್ನಷ್ಟು ವೀಡಿಯೋಗಳು (Click to Watch)</div>
+  <div class="movie-grid">
+
+    <!-- Item 1: ನಿಮ್ಮ ಹಾಡು -->
+    <div class="movie-card" onclick="changeMovie('-E0P159qjwk', 'ಮೌನದ ಅಲೆಗಳು (Mouna Nadi)', 'Kathu_764 Exclusive • Full HD')">
+      <img src="https://img.youtube.com/vi/-E0P159qjwk/hqdefault.jpg" alt="Mouna Nadi">
+      <div class="card-details">
+        <div class="card-name">ಮೌನದ ಅಲೆಗಳು</div>
+        <div class="card-tag">▶ ವೀಕ್ಷಿಸಿ (HD)</div>
+      </div>
     </div>
-    <div class="screen-actions">
-      <span style="font-size: 12px; color: #888;">Cinema Mode: Full HD</span>
-      <button class="action-btn" onclick="triggerFullScreen()">
-        ⛶ Fullscreen
-      </button>
+
+    <!-- Item 2 -->
+    <div class="movie-card" onclick="changeMovie('L_LUpnjgPso', 'ಆಕ್ಷನ್ ಸಿನಿಮಾ (Movie 2)', 'Special Feature • Full HD')">
+      <img src="https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400&q=80" alt="Movie 2">
+      <div class="card-details">
+        <div class="card-name">ಆಕ್ಷನ್ ಸಿನಿಮಾ 2</div>
+        <div class="card-tag">▶ ವೀಕ್ಷಿಸಿ (HD)</div>
+      </div>
     </div>
+
+    <!-- Item 3 -->
+    <div class="movie-card" onclick="changeMovie('kJQP7kiw5Fk', 'ರೊಮ್ಯಾಂಟಿಕ್ ಸಿನಿಮಾ (Movie 3)', 'Romantic Drama • Full HD')">
+      <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&q=80" alt="Movie 3">
+      <div class="card-details">
+        <div class="card-name">ಲವ್ ಸ್ಟೋರಿ 3</div>
+        <div class="card-tag">▶ ವೀಕ್ಷಿಸಿ (HD)</div>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    // 1. YouTube Link Converter Function
-    function getYoutubeId(url) {
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-      const match = url.match(regExp);
-      return (match && match[2].length === 11) ? match[2] : null;
-    }
-
-    // 2. Main Play Function
-    function launchCinema() {
-      const pass = document.getElementById('passCode').value.trim();
-      const url = document.getElementById('ytUrl').value.trim();
-      const status = document.getElementById('status-msg');
-      const player = document.getElementById('mainPlayer');
-
-      // Password Validation (1962)
-      if (pass !== "1962") {
-        status.innerHTML = "❌ <span style='color:#ff4444;'>ಪಾಸ್‌ವರ್ಡ್ ತಪ್ಪಾಗಿದೆ! (1962 ಹಾಕಿ)</span>";
-        status.style.display = "block";
-        return;
-      }
-
-      const videoId = getYoutubeId(url);
-      if (!videoId) {
-        status.innerHTML = "❌ <span style='color:#ff4444;'>ಸರಿಯಾದ YouTube ಲಿಂಕ್ ಹಾಕಿ.</span>";
-        status.style.display = "block";
-        return;
-      }
-
-      // Live Stream / Video Load with Autoplay
-      player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&rel=0&modestbranding=1";
+    function changeMovie(videoId, titleText, subText) {
+      const player = document.getElementById('cinemaPlayer');
+      const title = document.getElementById('playingTitle');
+      const sub = document.getElementById('playingSub');
       
-      status.innerHTML = "✅ <span style='color:#00e676;'>ವೀಡಿಯೋ ಯಶಸ್ವಿಯಾಗಿ ಪ್ಲೇ ಆಗುತ್ತಿದೆ!</span>";
-      status.style.display = "block";
+      // Update video and autoplay
+      player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+      title.innerText = titleText;
+      sub.innerText = subText;
 
-      // Clear input fields
-      document.getElementById('passCode').value = "";
-      document.getElementById('ytUrl').value = "";
-    }
-
-    // 3. Real Full-Screen for Mobile & Desktop
-    function triggerFullScreen() {
-      const screen = document.getElementById('cinemaScreen');
-      if (screen.requestFullscreen) {
-        screen.requestFullscreen();
-      } else if (screen.webkitRequestFullscreen) {
-        screen.webkitRequestFullscreen();
-      } else if (screen.msRequestFullscreen) {
-        screen.msRequestFullscreen();
-      }
+      // Smooth scroll to top for easy watching
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
 
